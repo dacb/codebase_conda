@@ -1,0 +1,5 @@
+name: codebase
+channels:
+  - defaults
+dependencies:
+  - pandas
