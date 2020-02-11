@@ -17,7 +17,7 @@ branches:
 # commands to prepare the conda install - download the latest conda
 # and install it and add to path
 before_install:
-    - curl http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+    - wget -O miniconda.sh http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
     - chmod +x miniconda.sh
     - ./miniconda.sh -b
     - export PATH=/home/travis/miniconda/bin:$PATH
