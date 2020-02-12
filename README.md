@@ -10,11 +10,11 @@
   * Activate it and populate it with the minimal tools to run the tests, for this example:
 ```
 source activate test_env
-conda install pip
-pip install pandas
+conda update conda
+conda install <conda package names>
 ```
   * Generate a requirements.txt using:
-`pip freeze > requirements.txt`
+`conda env export > environment.yml`
 * Create a `.travis.yml` file in the root of the repository.  It should have at least the following sections:
 ```
 # what language the build will be configured for
@@ -22,27 +22,35 @@ language: python
 
 # specify what versions of python will be used
 # note that all of the versions listed will be tried
-python:
-    - 3.4
-    - 3.5
-    - 2.7
-    
+matrix:
+    include:
+        - python: 3.5
+        - python: 3.6
+        - python: 3.7
+
 # what branches should be evaluated
 branches:
     only:
         - master
 
+# commands to prepare the conda install - download the latest conda
+# and install it and add to path
+before_install:
+    - wget -O miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b
+    - export PATH=/home/travis/miniconda3/bin:$PATH
+    - conda update --yes conda
+        
 # list of commands to run to setup the environment
 install:
-    - pip install coverage
-    - pip install coveralls
-    - pip install flake8
-    - pip install -r requirements.txt
-
+    - conda env create -q -n test-environment python=$TRAVIS_PYTHON_VERSION --file environment.yml
+    - source activate test-environment
+    - conda install --yes coverage coveralls flake8
 
 # a list of commands to run before the main script
 before_script:
-    - "flake8 codebase"
+    - flake8 codebase
 
 # the actual commands to run
 script:
@@ -52,7 +60,6 @@ script:
 after_success:
     - coverage report
     - coveralls
-
 ```
 * Sometimes you need to install operating system level dependencies using `apt-get` in which case you will need to add the following lines:
 ```
