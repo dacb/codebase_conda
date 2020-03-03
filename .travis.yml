@@ -22,7 +22,7 @@ before_install:
     - ./miniconda.sh -b
     - export PATH=/home/travis/miniconda3/bin:$PATH
     - conda update --yes conda
-    - conda init bash
+    - source $(conda info --root)/etc/profile.d/conda.sh
         
 # list of commands to run to setup the environment
 install:
