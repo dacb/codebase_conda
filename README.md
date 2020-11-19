@@ -1,4 +1,4 @@
-# Continuous Integration example for Python
+# Continuous Integration example for Python using Conda
 
 [![Build Status](https://travis-ci.org/dacb/codebase_conda.svg?branch=master)](https://travis-ci.org/dacb/codebase_conda)
 [![Coverage Status](https://coveralls.io/repos/github/dacb/codebase_conda/badge.svg?branch=master)](https://coveralls.io/github/dacb/codebase_conda?branch=master)
